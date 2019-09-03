@@ -1,0 +1,114 @@
+%\documentclass[12pt, a3paper]{extarticle}
+\documentclass[12pt, a4paper]{article}
+\usepackage{graphicx, rotating, geometry}
+\graphicspath{{./}}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\newcommand{\ti}{\textit}
+\newcommand{\ul}{\underline}
+\title{Cybersecurity Assignment 1}
+\author{Mayank Sharma, 160392}
+\date{August, 12, 2019}
+
+\begin{document}
+\renewcommand{\v}{\textbf}
+\maketitle
+\section{}
+
+\newpage
+\section{}
+
+From the defintion of inner product, we have
+\begin{align*}
+    \langle \v{x}, \v{y} \rangle &= \v{x}^{T} \v{y}
+\end{align*}
+So, for $\langle \v{A}\v{x}, \v{y} \rangle$
+\begin{align*}
+    \implies \langle \v{A}\v{x}, \v{y} \rangle &= (\v{A}\v{x})^{T} \v{y} \\
+    &= ( \v{x}^{T} \v{A}^{T}) \v{y} \\
+    &=  \v{x}^{T} (\v{A}^{T} \v{y}) \\
+    &=  \langle \v{x}, \v{A}^{T} \v{y} \rangle \\
+\end{align*}
+
+***
+
+We know that the L-2 Norm of a vector $\v{x}$ is given by,
+\begin{align*}
+    \Vert \v{x}_2 \Vert^2_2 = \v{x}^T \v{x}
+\end{align*}
+
+Since, $\v{Q}$ is an orthogonal matrix, we have
+\begin{align*}
+    \v{Q}^T \v{Q} = \v{I} =  \v{Q} \v{Q}^T
+\end{align*}
+Now, left multiplying $\v{x}$ with $\v{Q}$ and gives us $\v{Q} \v{x}$ which is an $n \times 1$ vector. Then taking its L-2 Norm, we get
+\begin{align*}
+    \Vert \v{Q} \v{x} \Vert^2_2  &= (\v{Q} \v{x})^T (\v{Q} \v{x}) \\
+    &= \v{x}^T \v{Q}^T \v{Q} \v{x} \\
+    &= \v{x}^T \v{I} \v{x} \\
+    &= \v{x}^T \v{x} \\
+    &= \Vert \v{x} \Vert^2_2 \\
+\end{align*}
+
+\newpage
+
+\section{}
+\textit{Note: On Canvas, sir has mentioned in one of the discussions that we need to asssume that the vectors are orthonormal. } \\
+
+Given that $\v{S}$ is a symmetric matrix (i.e. $\v{S} = \v{S}^T$) with its eigenvectors ($\v{v}_1,\v{v}_2, ..., \v{v}_n$) and the corresponding eigen values ($\lambda_1,\lambda_2, ..., \lambda_n$). \\
+Consider matrix $\v{Q}$ below,
+\begin{align*}
+    \v{Q} &= \v{S} - \sum_{i=1}^{n} \lambda_{i} \v{v}_i \v{v}^{T}_i\\
+\end{align*}
+
+Right multiplying by $\v{v}_j$ such that $j \in \{1, 2, ..., n\}$,
+\begin{align*}
+    \v{Q} \v{v}_j &= \v{S} \v{v}_j - \sum_{i=1}^{n} \lambda_{i} \v{v}_i \v{v}^{T}_i \v{v}_j \\
+    &= \v{S} \v{v}_j - \sum_{i=1}^{n} \lambda_{i} \v{v}_i (\v{v}^{T}_i \v{v}_j) \\
+    &= \v{S} \v{v}_j - \sum_{i=1}^{n} \lambda_{i} \v{v}_i \delta_{i, j} \qquad \text{where $\delta_{i, j}$ is the Kronecker Delta, since $\v{v}_i$ and $\v{v}_j$ are orthogonal} \\
+\end{align*}
+
+So, for the summation term, we get
+\begin{align*}
+    \v{Q} \v{v}_j &= \v{S} \v{v}_j - \lambda_{j} \v{v}_j  \\
+\end{align*}
+From the defintion of a eigenvectors, $\v{S} \v{v}_j = \lambda_{j} \v{v}_j$, so we get $\v{Q} = \v{0}$ or
+\[
+    \v{S} = \sum_{i=1}^{n} \lambda_{i} \v{v}_i \v{v}^{T}_i
+\]
+
+\newpage
+
+\section{}
+Given $\v{A}_{m \times n}$ matrix, the kernel of $\v{A}$ is defined as
+\begin{align*}
+    \text{ker} (\v{A}) &= \{ \v{x} \mid \v{A} \v{x} = 0 \}
+\end{align*}
+and the row space of $\v{A}$ is defined as taking $\v{A} =
+\left[ {\begin{array}{c}
+    \v{a}_1^T \\
+    \v{a}_2^T \\
+ \ldots \\
+ \ldots \\
+    \v{a}_m^T
+ \end{array} } \right]$
+\begin{align*}
+    \text{row} (\v{A}) &= \{ \v{y} \mid \v{y} = \sum_{i=1}^{m} \v{a}_i c_i,\qquad c_i \in \mathbb{R}\}
+\end{align*}
+Now, from the defintion of ker $(\v{A})$, we have
+\begin{align*}
+    &\v{A}_{m \times n}  \hskip0.5em \v{x}_{n \times 1} = 0 \\
+    &\implies \v{a}_i^T \v{x} = 0
+\end{align*}
+To check for orthogonality, we arbitrarily take any vector $\v{y}$ from $\text{row} (\v{A})$ and similarly, $\v{x}$ from $\text{ker} (\v{A})$ and check using ther inner product. If the inner product is 0, then the two spaces are orthogonal to each other.
+\begin{align*}
+    \langle \v{y}, \v{x} \rangle &= \left (\sum_{k=1}^m \v{a}_i c_i\right)^T  \v{x} \\
+    \v{y}^T \v{} &= \left (\sum_{k=1}^m \v{a}_i c_i\right)^T  \v{x} \\
+    &=  \left (\sum_{k=1}^m c_i \v{a}_i^T\right)  \v{x} \\
+    &= \sum_{k=1}^m c_i (\v{a}_i^T  \v{}) = 0
+\end{align*}
+\end{document}
