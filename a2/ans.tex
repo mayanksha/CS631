@@ -1,0 +1,251 @@
+%\documentclass[12pt, a3paper]{extarticle}
+\documentclass[12pt, a4paper]{article}
+\usepackage{graphicx, rotating, geometry}
+\geometry{left=2.0cm, top=3cm, right=2.0cm, bottom=3.0cm, footskip=1cm}
+\graphicspath{{./}}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{chngcntr}
+\counterwithin*{equation}{section}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\newcommand{\ti}{\textit}
+\newcommand{\ul}{\underline}
+\title{Cybersecurity Assignment 2}
+\author{Mayank Sharma, 160392}
+\date{August, 31, 2019}
+
+\begin{document}
+\renewcommand{\v}{\textbf}
+\maketitle
+\section{}
+
+To Prove:
+\begin{align*}
+    \langle \v{v}, \v{w} \rangle = \langle L\v{v}, L\v{w} \rangle 
+\end{align*}
+We're given that $\v{L}$ is an isometry and that $\v{L} : V \rightarrow W$ is a linear transformation, and we need to show that that the above relation holds (i.e. it preseves the inner products)\\\\
+Now, we know that $\langle \v{x}, \v{x} \rangle= \Vert \v{x}\Vert^2$ and that $\Vert \v{x} + \v{y} \Vert_2^2 - \Vert \v{x} - \v{y} \Vert_2^2 = 4 \langle \v{x}, \v{x} \rangle $
+
+So, we have, 
+\begin{align}
+    \Vert L\v{v} = L\v{w}\Vert_2^2 - \Vert L\v{v} - L\v{w} \Vert_2^2 = 4  \langle \v{v}, \v{w} \rangle
+\end{align}
+Since $\v{L}$ is an isometry,
+\begin{align*}
+    \implies \Vert \v{v} + \v{w} \Vert^2 - \Vert \v{v} - \v{w} \Vert^2 &= 4  \langle \v{v}, \v{w} \rangle \\
+    \implies \langle \v{v} + \v{w}, \v{v} + \v{w} \rangle - \langle \v{v} - \v{w}, \v{v}- \v{w} \rangle &= 4 \langle L \v{v} , L \v{w} \rangle \\
+\end{align*}
+Now, from the additivity of inner products, we get that
+\begin{align}
+    \implies \langle \v{v} + \v{w}, \v{v} + \v{w} \rangle &=
+        \langle \v{v} , \v{v} \rangle + \langle \v{w} , \v{w} \rangle + 2 \langle \v{v} , \v{w} \rangle \\
+    \implies \langle \v{v} - \v{w}, \v{v}- \v{w} \rangle  &=
+        \langle \v{v} , \v{v} \rangle + \langle \v{w} , \v{w} \rangle - 2 \langle \v{v} , \v{w} \rangle
+\end{align}
+So, using (2) and (3) in (1), we get that
+\begin{align*}
+    \implies (2 \langle \v{v}, \v{w} \rangle +  \langle \v{v}, \v{v} \rangle +  \langle \v{w}, \v{w} \rangle) &- ( \langle L\v{v}, L\v{v} \rangle +  \langle \v{w}, \v{w} \rangle − 2 \langle \v{v}, \v{w} \rangle) = 4 \langle L\v{v}, L\v{w} \rangle \\
+    &\implies 4 \langle \v{v}, \v{w} \rangle = 4 \langle L\v{v}, L\v{w} \rangle \\
+    &\implies  \langle \v{v}, \v{w} \rangle =  \langle L\v{v}, L\v{w} \rangle
+\end{align*}
+Therefore, isometry $\v{L}$ preseves the inner product of two vectors. \\ \\
+Geometrically this result means that an operation of an isometry $\v{L}$ on two vectors $ \v{v}, \v{w} $ does not change the magnitude of norms between the two vectors. It's like moving a whole set of vectors by some distance without changing the distances between the vectors (i.e. their relative distance doesn't change).
+\newpage
+
+\section{}
+
+We're given that that $L : V \rightarrow W$ is a linear transformation between two normed vector spaces. We need to show that $Row (L) = (Kernel (L))^{\perp}$.
+The $kernel(L)$ is defined as
+\begin{align*}
+    kernel(L) &= \{ \v{v} \in V : L \v{v} = 0 \}
+\end{align*}
+whereas the rowspace of $L$ is the collection of linearly independent vectors that the rows of $L$.
+Consider the span of liearly independent rows of $L$ (Here, $\v{r}_i^T$'s are the linearly independent rows of $L$ and $c_i$ is any constant):
+\begin{align*}
+    \v{x} = \sum_{i=0}^{m} c_i \v{r}_i
+\end{align*}
+\begin{align*}
+    L\v{v} = \left[ {\begin{array}{c}
+        \v{r}_1^T\\
+        \v{r}_2^T\\
+        ... \\
+        \v{r}_m^T
+    \end{array} } \right] \v{v}
+    =
+    \left[ {\begin{array}{c}
+        \v{r}_1^T.\v{v}\\
+        \v{r}_2^T.\v{v}\\
+        ... \\
+        \v{r}_m^T.\v{v}
+    \end{array} } \right]
+    = \v{0}
+\end{align*}
+This means the inner product of  $\v{v}$ with each linearly independent row vector of $L$ is 0, i.e. $\v{v}$ is orthogonal to every row vector of $L$. Hence, $\v{v}$ is orthogonal to any vector $\v{x} \in Row(L)$.\\ \\
+Hence, 
+\begin{align*}
+    Row(L) = (Kernel(L))^{\perp}
+\end{align*}
+
+\newpage
+\section{}
+Let us take a $m \times n$ matrix A. Let it's row rank be $\v{r}$.\\
+Let it's row span be comprised of linearly independent vectors $x_1,x_2....x_r.$\\
+Let's take $v=\sum_{i=1}^{i=r}c_{i}x_{i}$.\\
+Now.\\
+\begin{align*}
+    Av&=0\\
+    \implies A\sum_{i=1}^{i=r}c_{i}x_{i}&=\sum_{i=1}^{i=r}c_{i}A x_{i}=0
+\end{align*}
+Since, $v\in Row(A)$ and $Av=0$, i.e. v is orthogonal to every row of A and therefore orthogonal to itself, therefore 
+\begin{align*}
+    v &= 0.\\
+    \implies \sum_{i=1}^{i=r}c_{i}x_{i}&=0\\
+    \implies c_i&=0  \quad \forall i
+\end{align*}
+Now, since $x_i$s are linearly independent, we get
+\begin{align*}
+\sum_{i=1}^{i=r}c_{i}A x_{i}=0
+\end{align*}
+and 
+\begin{align*}
+c_i=0 \quad\forall i
+\end{align*}
+$\implies Ax_i$s are linearly independent. Also, $Ax_i$s are also vectors of column space of A. Hence, column space of A contains at least r linearly independent vectors, i.e.
+$$dim(Col(A))\geq r$$
+$$\implies dim(Col(A)) \geq dim(Row(A))$$
+Now,
+$$ dim(Col(A^{T})) \geq dim(Row(A^{T}))$$
+$$\implies dim(Row(A)) \geq dim(Col(A))$$
+as row rank of A is the column rank of $A^T$.\\
+Hence, $dim(Row(A))=dim(Col(A))$.
+\hspace*{\fill} Q.E.D
+
+\newpage
+\section{}
+The SVD is defined as follows: \\ Let $\v{A}$ be an $(m \times n)$ matrix with $m \geq n$.
+Then there exist orthogonal matrices $\v{U}_{m \times m}$ and $\v{V}_{n \times n}$ and a diagonal matrix $\v{S}_{(m \times n)} = \text{diag} (\sigma_1, \ldots , \sigma_n)$ with $\sigma_1 \geq \sigma_2 \geq . . . \geq \sigma_n \geq 0$, such that
+\begin{align*}
+    \v{A} = \v{U} \v{S} \v{V}^T
+\end{align*}
+To Prove: \\
+    1. \qquad $\v{U}$ is a matrix whose columns are the eigen vectors of $\v{A}\v{A}^T$ and $\v{V}$ is a matrix whose columns are eigen vectors of \v{A}^T \v{A}. \\
+    2. \qquad $\v{A}\v{A}^T$ and $\v{A}^T \v{A}$ are symmetric matrices
+We firstly prove the second part. Note that,
+\begin{align*}
+    (\v{A}\v{A}^T)^T = (\v{A}^T)^T\v{A}^T = \v{A}\v{A}^T
+\end{align*}
+Hence, $\v{A}\v{A}^T$ is a symmetric matrix. Similarly for $\v{A}^T\v{A}$,
+\begin{align*}
+(\v{A}^T\v{A})^T = \v{A}^T(\v{A}^T)^T = \v{A}^T\v{A}
+\end{align*}
+Hence, $\v{A}^T\v{A}$ is also symmetric. We now prove the first part.
+From the SVD definition we have:
+\begin{align}
+    \v{S}^T &= \v{S}\\
+    \v{U}\v{U}^T &= \v{U}^T\v{U} = I \\
+    \v{V}\v{V}^T &= \v{V}^T\v{V} = I
+\end{align}
+Now, using the above three,
+\begin{align*}
+    \v{A}\v{A}^T &= (\v{U}\v{S}\v{V}^T)(\v{U}\v{S}\v{V}^T) ^T \\
+     &= \v{U}\v{S}\v{V}^T(\v{V}\v{S}\v{U}^T) \\
+     &= \v{U}\v{S}^2\v{U}^T
+\end{align*}
+\begin{align}
+    \implies \v{A}\v{A}^T\v{U} &= \v{U}\v{S}^2
+\end{align}
+\begin{align*}
+    \v{U} =
+    \left[ {\begin{array}{cccccc}
+        \v{u}_1,& \v{u}_2,& \ldots & \v{u}_i,& \ldots& \v{u}_m
+    \end{array} } \right] \\
+    \v{S}^2 =
+    \left[ {\begin{array}{cccc}
+        \sigma_1^2 ,& 0 ,& \ldots ,& 0 \\
+        \ldots ,& \sigma_2^2 ,& \ldots ,& 0 \\
+        \ldots ,& \ldots ,& \ldots ,& \ldots \\
+        0 ,& 0 ,& \ldots ,& \sigma_m^2
+    \end{array} } \right]
+\end{align*}
+Hence, from (4), we can say that
+\begin{align*}
+    (\v{A}\v{A}^T) \v{u}_i = (\sigma_i^2) \v{u}_i
+\end{align*}
+Hence, the column vectors of $\v{U}$ are the orthonormal eigen-vectors of matrix $\v{A}\v{A}^T$, such that $\v{U}$ is the matrix containing all the eigen vectors of $(\v{A}\v{A}^T)$ and $\v{S}^2$ contains all the eigen values. \\ \\
+Similarly, we can consider the matrix $\v{A}^T\v{A}$ 
+\begin{align*}
+    \v{A}^T\v{A} &= (\v{U}\v{S}\v{V}^T) ^T(\v{U}\v{S}\v{V}^T) \\
+    &= \v{V}\v{S}\v{U}^T(\v{U}\v{S}\v{V}^T) \\
+    &= \v{V}\v{S}^2\v{V}^T
+\end{align*}
+\begin{align*}
+    \implies \v{A}^T \v{A} \v{V} = \v{V} \v{S}^2
+\end{align*}
+Hence, column vectors of V are the orthonormal eigenvectors of matrix $\v{A}^T \v{A}$ and the matrix $\v{V}$ contains all the eigenvectors and $\v{S}^2$ contains all the eigen values.\\ \\
+\hspace*{\fill} Q.E.D
+
+\newpage
+\section{}
+We're given that $\v{u}_i$ is an m-dimensional vector and $\v{v}_i$ is an n-dimensional vector. Now, the product of these two vectors along the common axis (i.e. $1$) will be an $m \times n$ matrix (say $\v{A}$).
+\begin{align}
+    \v{A}_{m \times n} = \sum_{i}(\sigma_i\v{u}_i) (\v{v}_i^T)
+\end{align}
+Now, from out knowledge about SVD, the matrix $\v{A}$ can also be written as the summation of the outer product of eigen vectors of the matrices $\v{U}$ and $\v{V}$, where these $\v{U}$ and $\v{V}$ matrices satisfy the below relationship.
+\begin{align*}
+    \v{A} = \v{U}\v{S}\v{V}^T
+\end{align*}
+such that the matrix $\v{S}$ contains all the singular values of the matrix $\v{A}$.
+Aoreover, the orthogonal matrices $\v{U}_{m \times m}$ and $\v{V}_{n \times n}$ and the diagonal matrix $\v{S}_{(m \times n)} = \text{diag} (\sigma_1, \ldots , \sigma_n)$ such that $\sigma_1 \geq \sigma_2 \geq . . . \geq \sigma_n \geq 0$.
+
+The significance of the above decomposition of matrix $\v{A}$ is that we get the singular values in a decreasing way. So, what we can do is in the summation given by (1), we can  ignore the  terms corresponding to the smaller singular values and take the first k signicant terms.\\ \\
+This allows us to approximate the matrix $\v{A}$ (having a rank $r$) with another matrix $\v{B}$ having a rank of $k$ (such that $k < r$). \\ \\
+The advantage that this method provides is that we can significantly reduce the computation depending upon the precision of the output that we need. If we need a higher precision, we can ignore a lesser number of terms in the summation given by (1), and vice versa. It's particularly useful in signal processing where  there can be many smaller components which don't play a signicant part and can easily be ignored.
+\newpage
+\section{}
+Given that $\v{S}$ is a symmetric matrix (i.e. $\v{S} = \v{S}^T$) with its eigenvectors ($\v{v}_1,\v{v}_2, ..., \v{v}_n$) and the corresponding eigen values ($\lambda_1,\lambda_2, ..., \lambda_n$). Now, by the property of symmetric matrices, these eigenvectors are orthogonal. \\ \\
+To Prove:
+\begin{align*}
+    \v{S} &= \sum_{i=1}^{n} \lambda_{i} \v{v}_i \v{v}^{T}_i\\
+\end{align*}
+Now, we know that we can decompose $\v{S}$ as $\v{S} = \v{P} \v{D} \v{P}^{-1}$, where $\v{P}$ is a matrix whose columns are the eigenvectors of $\v{S}$ and $\v{D}$ is a diagonal matrix whose diagonal values are eigenvalues of $\v{S}$.
+\begin{align*}
+    \v{P} = \left[ {\begin{array}{ccc}
+        \v{v}_1 & \v{v}_2 & \v{v}_3
+    \end{array} } \right] \\
+    \v{D} = diag( {\begin{array}{ccc}
+        \lambda_1 ,& \lambda_2 ,& \lambda_3
+    \end{array} } )
+\end{align*}
+Since, $\v{P}$ is an orthogonal matrix because all its column vectors are orthogonal, so we have $\v{P}^{-1} = \v{P}^T$.
+\begin{align*}
+\v{S} = \v{P} \v{D} \v{P}^{-1} = \v{P} \v{D} \v{P}^{T}
+\end{align*}
+\begin{align*}
+\implies \v{S} =
+    \left[ {\begin{array}{cccc}
+        \v{v}_1,& \v{v}_2,& \ldots,& \v{v}_n
+    \end{array} } \right]
+    \left[ {\begin{array}{cccc}
+        \lambda_1 ,& 0 ,& \ldots ,& 0 \\
+        \ldots ,& \lambda_2 ,& \ldots ,& 0 \\
+        \ldots ,& \ldots ,& \ldots ,& \ldots \\
+        0 ,& 0 ,& \ldots ,& \lambda_n
+    \end{array} } \right]
+    \left[ {\begin{array}{c}
+        \v{v}_1^T \\
+        \v{v}_2^T \\
+        \ldots \\
+        \v{v}_n^T
+    \end{array} } \right]
+\end{align*}
+Once we multiply the above three matrices, we get
+\begin{align*}
+    \v{S} &= \sum_{i=1}^{n} \lambda_{i} \v{v}_i \v{v}^{T}_i\\
+\end{align*}
+The significance is that this result can be used in reducing the dimensionality of some dataset, which can help us to reduce the number of computations done.
+
+\hspace*{\fill} Q.E.D
+\end{document}
