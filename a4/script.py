@@ -13,6 +13,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
+from sklearn.model_selection import cross_val_score, GridSearchCV
 
 def train_dtree (x_train, y_train, x_v, y_v):
     accuracies = []
@@ -46,7 +47,6 @@ def do_pca(x_train, y_train):
     # components which net us aforementioned variance percentage
     pca = PCA(0.9999)
     pca.fit(x_train)
-    print("Optimal number of PCA components = %d (which retain 0.9999 variance)" % (pca.n_components_))
     return pca
 
 def do_logistic_regression(pca, x_train, y_train):
@@ -93,7 +93,7 @@ accuracy = 1 - (cm[0][1] + cm[1][0]) / np.sum(cm)
 print("********* For Decision Tree based classifier *********")
 print("Optimal Depth of Dtree (based upon validation data) = %d" % (optimal_depth))
 print(cm)
-print("Accuracy = %.8f" % (accuracy))
+print("Accuracy = %.10f" % (accuracy))
 print("******************************************************")
 
 save_dtree_fig_as_png (clf)
@@ -101,7 +101,6 @@ save_dtree_fig_as_png (clf)
 
 
 #################### PCA ####################
-print("\n********* For PCA + Logistic Regression based classifier *********")
 x_train_scaled = RobustScaler().fit_transform(x_train[x_train.columns])
 x_v_scaled = RobustScaler().fit_transform(x_v[x_v.columns])
 x_test_scaled = RobustScaler().fit_transform(x_test[x_test.columns])
@@ -111,8 +110,11 @@ pca = do_pca(x_train_scaled, y_train)
 
 
 ############## PCA BASED CLASSIFICATION (LOGISTIC REGRESSION) ##############
+print("\n********* For PCA + Logistic Regression based classifier *********")
+print("Optimal number of PCA components = %d (which retain 0.9999 variance)" % (pca.n_components_))
 logisticRegr = do_logistic_regression (pca, x_train_scaled, y_train)
 
+pca_x_train = pca.transform(x_train_scaled)
 pca_x_v = pca.transform(x_v_scaled)
 pca_x_test = pca.transform(x_test_scaled)
 
@@ -121,26 +123,27 @@ cm = confusion_matrix(y_test, y_pred)
 accuracy = 1 - (cm[0][1] + cm[1][0]) / np.sum(cm)
 
 print(cm)
-print("Accuracy = %.8f" % (accuracy))
+print("Accuracy = %.10f" % (accuracy))
 print("******************************************************************")
 ############################################################################
 
-############## PCA BASED CLASSIFICATION (USING SVM) ##############
+############## PCA BASED CLASSIFICATION (USING LINEAR SVM) ##############
+print("\n********* For PCA + Linear SVM based classifier *********")
+Cs = [0.001, 0.01, 0.1, 1, 5, 10]
+gammas = [0.001, 0.01, 0.1, 1]
+param_grid = {'C': Cs, 'gamma' : gammas}
+grid_search = GridSearchCV(svm.SVC(kernel='linear'), param_grid, cv=5)
 
-#  f, ax = plt.subplots(figsize=(50, 50))
-#  corr = x_train.corr()
-#  hm = sns.heatmap(round(corr,2), annot=True, ax=ax, cmap="coolwarm", fmt='.2f', linewidths=.05)
-#  f.subplots_adjust(top=0.93)
-#  plt.savefig ("./pca.png")
+svm_x, svm_y = np.concatenate((pca_x_train, pca_x_v)), np.concatenate((y_train, y_v))
+grid_search.fit(svm_x, svm_y)
 
-#  pca_x_train.hist(bins=10, color='steelblue', edgecolor='black', linewidth=0.7,
-           #  xlabelsize=8, ylabelsize=8, grid=False)
-#  plt.tight_layout()
+clf = svm.SVC(kernel='linear', C=grid_search.best_params_['C'])
+clf.fit(pca_x_train, y_train)
 
-#  plt.scatter(pca_x_train[:, 0], pca_x_train[:, 1],
-            #  c=y_train, edgecolor='none', alpha=0.5,
-            #  cmap=plt.cm.get_cmap('Spectral', 10))
-#  plt.xlabel('component 1')
-#  plt.ylabel('component 2')
-#  plt.colorbar()
+y_pred = clf.predict(pca_x_test)
+cm = confusion_matrix(y_test, y_pred)
+accuracy = 1 - (cm[0][1] + cm[1][0]) / np.sum(cm)
 
+print(cm)
+print("Accuracy = %.10f" % (accuracy))
+print("******************************************************************")
